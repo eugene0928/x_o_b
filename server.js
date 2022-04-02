@@ -8,17 +8,21 @@ const app = express()
 
 process.db = []
 
-app.use(express.static(path.join(__dirname, 'src', 'public')))
-app.use(cookieParser())
-app.use(fileUpload())
+const authMiddleware = require('./src/middleware/authentication.js')
+
+app.use( express.static( path.join( __dirname, 'src', 'uploads' ) ) )
+app.use( cookieParser() )
+app.use( /^((?!\/login).)*$/, authMiddleware )
+app.use( fileUpload() )
 
 
 // routers
 const loginRouter = require('./src/routes/login.js')
+const userRouter = require( './src/routes/user.js' )
 
 
-
-app.use(loginRouter)
+app.use( loginRouter )
+app.use( userRouter )
 
 
 app.listen(PORT, () => {
