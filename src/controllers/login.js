@@ -25,7 +25,7 @@ const POST = (req, res) => {
             turn: db.length == 0,
             validPlayer: db.length < 2,
             status: db.length < 2 ? 'Player' : 'Watcher',
-            moves: {}
+            moves: []
         }
 
         db.push(newUser)
