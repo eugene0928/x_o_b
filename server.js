@@ -20,15 +20,17 @@ app.use( fileUpload() )
 
 // routers
 const loginRouter = require( './src/routes/login.js' )
+const winROuter = require( './src/routes/win.js' )
 const userRouter = require( './src/routes/user.js' )
 const motionRouter = require( './src/routes/motion.js' )
 
 
 app.use( loginRouter )
+app.use( winROuter )
 app.use( userRouter )
 app.use( motionRouter )
 
 
-app.listen(PORT, () => {
+app.listen( PORT, () => {
     console.log('=> ' + url + ':' + PORT)
-})
+} )
