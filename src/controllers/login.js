@@ -6,9 +6,6 @@ const POST = (req, res) => {
         const { username } = req.body
         const { file } = req.files
         const db = process.db
-
-        console.log(req.body)
-        console.log(req.files)
         const user = db.find( el => el.userName == username )
 
         if(user) {
@@ -18,7 +15,9 @@ const POST = (req, res) => {
         if(file.size > 5 * 1024 * 1024) {
             throw new Error('This file is too large!')
         }
+
         const fileName = Date.now() + file.name
+        const filePath = path.join(__dirname, '../', 'uploads', fileName)
         const newUser = {
             id: db.length ? db.at(-1).id + 1 : 1,
             userName: username,
@@ -30,8 +29,6 @@ const POST = (req, res) => {
         }
 
         db.push(newUser)
-
-        const filePath = path.join(__dirname, '../', 'uploads', fileName)
         file.mv(filePath)
 
         const token = JWT.sign({ id: newUser.id, userName: newUser.userName})
@@ -43,6 +40,7 @@ const POST = (req, res) => {
 			.cookie('token', token)
 			.json({ 
 				status: 200,
+                id: newUser.id,
 				message: "You joined the game!" 
 			})
     } catch (err) {
