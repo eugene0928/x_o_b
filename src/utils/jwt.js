@@ -1,5 +1,5 @@
 const JWT = require('jsonwebtoken')
-const secretKey = 'passw'
+const secretKey = 'deno'
 
 module.exports = {
     sign: (payload) => JWT.sign(payload, secretKey),
